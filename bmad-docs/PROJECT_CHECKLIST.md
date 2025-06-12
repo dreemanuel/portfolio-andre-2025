@@ -1,38 +1,44 @@
 # Portfolio Website Development Checklist
 
 ## 1. Project Setup & Configuration
-- [ ] Initialize Vite + React project
-- [ ] Set up ESLint and Prettier for code quality
-- [ ] Configure Git repository and .gitignore
+
+- [x] Initialize Vite + React project
+- [x] Set up ESLint and Prettier for code quality
+- [x] Configure Git repository and .gitignore
 - [ ] Set up Vercel deployment pipeline
 - [ ] Configure environment variables for development/production
 
 ## 2. Core Dependencies
-- [ ] Install React Router DOM for navigation
-- [ ] Set up Framer Motion for animations
+
+- [x] Install React Router DOM for navigation
+- [x] Set up Framer Motion for animations
 - [ ] Configure Zustand for state management
-- [ ] Add React Intersection Observer
+- [x] Add React Intersection Observer
 - [ ] Set up Styled Components or Emotion for styling
 
 ## 3. UI Component Development
+
 ### Hero Section
-- [ ] Create HeroSection component with dynamic text
-- [ ] Implement smooth scroll-to-navbar transition
+
+- [x] Create HeroSection component with dynamic text (basic implementation)
+- [~] Implement smooth scroll-to-navbar transition (partially implemented)
 - [ ] Add responsive design for mobile/desktop
 - [ ] Integrate animated background
 - [ ] Implement dynamic text cycling effect
 
 ### Navigation
-- [ ] Create responsive Navbar component
-- [ ] Implement sticky navbar on scroll
+
+- [x] Create responsive Navbar component (basic implementation)
+- [~] Implement sticky navbar on scroll (partially implemented)
 - [ ] Add smooth scrolling to sections
 - [ ] Create mobile menu for small screens
 - [ ] Add active state indicators
 
 ### Project Showcase
-- [ ] Create ProjectTile component
+
+- [x] Create ProjectTile component (empty)
 - [ ] Implement hover animations with Framer Motion
-- [ ] Build ProjectDetailsModal component
+- [x] Build ProjectDetailsModal component (empty)
 - [ ] Create image gallery for project details
 - [ ] Add project filtering/sorting functionality
 

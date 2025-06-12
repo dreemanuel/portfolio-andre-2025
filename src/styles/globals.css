@@ -1,0 +1,106 @@
+/* Custom global styles */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Oxanium:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+/* Theme variables */
+:root {
+  /* Catppuccin Frappe Color Palette */
+  --ctp-base: #303446;
+  --ctp-crust: #232634;
+  --ctp-mantle: #292c3c;
+  --ctp-surface0: #414559;
+  --ctp-surface1: #51576d;
+  --ctp-surface2: #626880;
+  --ctp-overlay0: #737994;
+  --ctp-overlay1: #838ba7;
+  --ctp-overlay2: #949cbb;
+  --ctp-text: #c6d0f5;
+  --ctp-subtext1: #b5bfe2;
+  --ctp-subtext0: #a5adce;
+  --ctp-blue: #8caaee;
+  --ctp-lavender: #babbf1;
+  --ctp-sapphire: #85c1dc;
+  --ctp-sky: #99d1db;
+  --ctp-teal: #81c8be;
+  --ctp-green: #a6d189;
+  --ctp-yellow: #e5c890;
+  --ctp-peach: #ef9f76;
+  --ctp-maroon: #ea999c;
+  --ctp-red: #e78284;
+  --ctp-mauve: #ca9ee6;
+  --ctp-pink: #f4b8e4;
+  --ctp-flamingo: #eebebe;
+  --ctp-rosewater: #f2d5cf;
+  
+  /* Neon colors for UI accents */
+  --neon-cyan: #33ccff;
+  --neon-green: #00ff99;
+  --neon-pink: #ff2d75;
+  --neon-purple: #b967ff;
+}
+
+/* Base styles */
+body {
+  @apply bg-ctp-base text-ctp-text font-sans;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-heading font-bold leading-tight tracking-tight;
+  color: var(--ctp-text);
+}
+
+h1 { @apply text-4xl md:text-5xl lg:text-6xl; }
+h2 { @apply text-3xl md:text-4xl; }
+h3 { @apply text-2xl md:text-3xl; }
+h4 { @apply text-xl md:text-2xl; }
+
+p {
+  @apply leading-relaxed mb-4;
+  color: var(--ctp-subtext0);
+}
+
+a {
+  @apply text-ctp-blue hover:text-ctp-sapphire transition-colors duration-200;
+  text-decoration: none;
+}
+
+/* Custom utility classes */
+.glass {
+  @apply bg-ctp-surface0/50 backdrop-blur-md border border-ctp-overlay0/20;
+}
+
+.neon-text {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-purple;
+}
+
+.neon-border {
+  @apply border-2 border-neon-cyan shadow-neon;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes neonPulse {
+  0%, 100% { 
+    text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+  }
+  50% { 
+    text-shadow: 0 0 15px var(--neon-cyan), 0 0 30px var(--neon-cyan);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-neon-pulse {
+  animation: neonPulse 2s ease-in-out infinite;
+}
