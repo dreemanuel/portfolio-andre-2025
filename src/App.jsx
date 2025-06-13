@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useEffect, useState, createContext, useContext } from 'react';
 
