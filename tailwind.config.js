@@ -47,6 +47,9 @@ export default {
           purple: '#b967ff',
         },
       },
+      textShadow: {
+        glow: '0 0 10px rgba(102, 164, 224, 0.8), 0 0 20px rgba(102, 164, 224, 0.6), 0 0 30px rgba(102, 164, 224, 0.4)'
+      },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],

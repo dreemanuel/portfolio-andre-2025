@@ -5,6 +5,14 @@ import { Link } from 'react-router-dom';
 import { TypeAnimation } from 'react-type-animation';
 import SocialLinksDropdown from './SocialLinksDropdown';
 
+/**
+ * Hero Section Component
+ * @component
+ * @description Displays the main hero section with animated text and call-to-action buttons.
+ * Implements UI/UX spec 4.1 - Hero Section with animations and responsive design.
+ * @returns {JSX.Element} The rendered HeroSection component
+ */
+
 const HeroSection = () => {
   const [mounted, setMounted] = useState(false);
   const { scrollY } = useScroll();
@@ -93,100 +101,68 @@ const HeroSection = () => {
 
       {/* Main Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch min-h-[70vh] py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch min-h-[90vh] py-8">
           {/* Left Column - Minimalist Text */}
           <motion.div 
-            className="lg:col-span-7 flex flex-col justify-center p-12 lg:p-16"
+            className="lg:col-span-7 flex flex-col justify-center p-8 lg:p-12"
             style={{
-              position: 'relative',
+              border: '1px solid transparent',
+              borderImage: 'linear-gradient(to bottom, #33ccff, #00ff99) 1',
               background: 'linear-gradient(to right, rgba(36, 39, 58, 0.8), rgba(41, 44, 60, 0.8))',
-              borderRadius: '1.5rem',
-              overflow: 'hidden',
             }}
             variants={containerVariants}
             initial="hidden"
             animate={mounted ? "show" : "hidden"}
             key="left-column"
           >
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              borderRadius: '1.5rem',
-              padding: '1px',
-              background: 'linear-gradient(to bottom, rgba(51, 204, 255, 0.7), rgba(0, 255, 153, 0.7))',
-              WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-              WebkitMaskComposite: 'xor',
-              maskComposite: 'exclude',
-              pointerEvents: 'none'
-            }} />
             <motion.h1 
               variants={itemVariants}
-              className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-left"
+              className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-right"
             >
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-ctp-mauve to-ctp-blue">
-                Hi, I'm <span className="animate-pulse [text-shadow:0_0_10px_rgba(102,164,224,0.8),0_0_20px_rgba(102,164,224,0.6),0_0_30px_rgba(102,164,224,0.4)]">Andre</span>
+                Andre.
               </span>
             </motion.h1>
 
             <motion.div 
               variants={itemVariants}
-              className="text-2xl md:text-4xl font-medium mb-8 text-left"
+              className="text-2xl md:text-4xl font-medium mb-8 text-right"
             >
-              <span className="inline-block min-h-[2.5rem] font-heading text-ctp-text">
-                I am a <TypeAnimation
-                  sequence={typingSequence}
-                  wrapper="span"
-                  speed={50}
-                  repeat={Infinity}
-                  className="inline"
-                />
-              </span>
+              <TypeAnimation
+                sequence={typingSequence}
+                wrapper="span"
+                speed={50}
+                repeat={Infinity}
+                className="inline-block min-h-[2.5rem] font-heading text-ctp-text"
+              />
             </motion.div>
 
             <motion.p 
               variants={itemVariants}
-              className="text-ctp-subtext1 mb-10 max-w-2xl text-lg leading-relaxed text-left"
+              className="text-ctp-subtext1 mb-10 max-w-2xl text-lg leading-relaxed text-right ml-auto"
             >
-              Crafting digital experiences with <span className="text-ctp-blue">clean code</span>, cutting edge web technologies, and 
+              Crafting digital experiences with <span className="text-ctp-blue">clean code</span> and 
               <span className="text-ctp-pink"> thoughtful design</span>.
             </motion.p>
           </motion.div>
 
           {/* Right Column - CTA Card */}
           <motion.div 
-            className="lg:col-span-5 flex flex-col justify-center p-12 lg:p-16 text-left"
+            className="lg:col-span-5 flex flex-col justify-center p-8 lg:p-12"
             style={{
-              position: 'relative',
+              border: '1px solid transparent',
+              borderImage: 'linear-gradient(to bottom, #33ccff, #00ff99) 1',
               background: 'linear-gradient(to right, rgba(36, 39, 58, 0.8), rgba(41, 44, 60, 0.8))',
-              borderRadius: '1.5rem',
-              overflow: 'hidden',
             }}
             variants={containerVariants}
             initial="hidden"
             animate={mounted ? "show" : "hidden"}
             key="right-column"
           >
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              borderRadius: '1.5rem',
-              padding: '1px',
-              background: 'linear-gradient(to bottom, rgba(51, 204, 255, 0.7), rgba(0, 255, 153, 0.7))',
-              WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-              WebkitMaskComposite: 'xor',
-              maskComposite: 'exclude',
-              pointerEvents: 'none'
-            }} />
             <div className="space-y-6">
               <motion.h2 
                 variants={itemVariants}
-                className="text-2xl font-bold text-ctp-text text-center"
+                className="text-2xl font-bold text-ctp-text"
               >
                 Let's Collaborate
               </motion.h2>
@@ -199,21 +175,100 @@ const HeroSection = () => {
               </motion.p>
 
               <motion.div variants={itemVariants} className="space-y-4">
-                <Link
-                  to="/contact"
-                  className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-ctp-base rounded-lg bg-gradient-to-r from-ctp-blue to-ctp-sapphire hover:opacity-90 transition-opacity w-full"
+                <Link 
+                  to="/projects" 
+                  className="block w-full text-center px-4 py-2 text-sm rounded-lg font-medium bg-gradient-to-r from-ctp-blue to-ctp-sapphire text-ctp-base hover:shadow-neon transition-all duration-300 hover:translate-y-[-2px]"
                 >
-                  Get In Touch
+                  View My Work
                 </Link>
                 
-                <div className="flex items-center justify-center space-x-4">
+                <div className="flex items-center justify-center space-x-4 text-ctp-subtext1">
+                  <span className="h-px flex-1 bg-ctp-overlay0/30"></span>
+                  <span className="text-xs">or</span>
+                  <span className="h-px flex-1 bg-ctp-overlay0/30"></span>
+                </div>
+
+                <div className="flex flex-col items-center space-y-3">
                   <SocialLinksDropdown />
                 </div>
               </motion.div>
             </div>
           </motion.div>
+          </motion.div>
+
+          {/* Right Column - CTA Card */}
+          <motion.div 
+            className="lg:col-span-5 backdrop-blur-sm bg-ctp-surface0/30 p-8 rounded-2xl border border-ctp-overlay0/20 shadow-2xl shadow-ctp-blue/10"
+            variants={containerVariants}
+            initial="hidden"
+            animate={mounted ? "show" : "hidden"}
+            key="right-column"
+          >
+            <motion.div variants={itemVariants} className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-ctp-text mb-3">Let's Work Together</h3>
+              <p className="text-ctp-subtext1 mb-6">I'm currently open to new opportunities and freelance projects</p>
+                >
+                  Let's Collaborate
+                </motion.h2>
+                
+                <motion.p 
+                  variants={itemVariants}
+                  className="text-ctp-subtext1 mb-6 text-sm"
+                >
+                  I'm currently available for select freelance opportunities. Have an exciting project where you need my help?
+                </motion.p>
+
+                <motion.div variants={itemVariants} className="space-y-4">
+                  <Link 
+                    to="/projects" 
+                    className="block w-full text-center px-4 py-2 text-sm rounded-lg font-medium bg-gradient-to-r from-ctp-blue to-ctp-sapphire text-ctp-base hover:shadow-neon transition-all duration-300 hover:translate-y-[-2px]"
+                  >
+                    View My Work
+                  </Link>
+                  
+                  <div className="flex items-center justify-center space-x-4 text-ctp-subtext1">
+                    <span className="h-px flex-1 bg-ctp-overlay0/30"></span>
+                    <span className="text-xs">or</span>
+                    <span className="h-px flex-1 bg-ctp-overlay0/30"></span>
+                  </div>
+
+                  <div className="flex flex-col items-center space-y-3">
+                    <SocialLinksDropdown />
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
+
+      {/* Scroll Down Indicator */}
+      <motion.div 
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 0.5 }}
+      >
+        <div className="flex flex-col items-center group">
+          <span className="text-sm text-ctp-subtext1 mb-2 group-hover:text-neon-cyan transition-colors">
+            Scroll Down
+          </span>
+          <div className="w-8 h-12 border-2 border-neon-cyan rounded-full flex justify-center p-1 group-hover:shadow-[0_0_15px_var(--neon-cyan)] transition-all">
+            <motion.div
+              className="w-1.5 h-3 bg-neon-cyan rounded-full"
+              animate={{
+                y: [0, 14, 0],
+              }}
+              transition={{
+                duration: 1.8,
+                repeat: Infinity,
+                repeatType: "loop",
+                ease: "easeInOut"
+              }}
+            />
+          </div>
+        </div>
+      </motion.div>
     </motion.section>
   );
 };

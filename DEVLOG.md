@@ -7,6 +7,49 @@ This document captures the progress made during the development session focused 
 
 ### Progress Summary
 
+#### Recent Updates (2025-06-12)
+
+##### Visual Refinements
+
+- Increased border radius of content cards to 1.5rem for a softer, more modern look
+- Added a subtle gradient border effect using CSS masking to support rounded corners
+- Updated the heading to "Hi, I'm Andre" with an enlarged font size for better visual hierarchy
+- Added a pulsing glow effect to the name "Andre" with a custom blue (#66a4e0) outer glow
+- Updated the tagline to include "cutting edge web technologies" for better SEO and clarity
+- Reduced gradient border opacity to 0.7 for a more subtle appearance
+- Aligned all text to the left for better readability
+- Added "I am a" prefix to the cycling text for better context
+
+
+
+##### Interactive Elements
+
+- Redesigned the "Get in Touch" button to match the size of the "Connect with me" button
+- Maintained the gradient background on the button while ensuring consistent sizing
+- Ensured proper spacing and alignment of all interactive elements
+
+
+
+##### Code Improvements
+
+- Implemented a more maintainable approach for gradient borders using CSS masking
+- Optimized animation performance for the pulsing effect
+- Ensured all interactive elements maintain proper contrast and accessibility
+- Fixed layout issues in the right column content
+
+
+
+##### Responsive Design
+
+- Verified all changes work well across different screen sizes
+- Ensured proper text wrapping and spacing on mobile devices
+- Maintained visual hierarchy on smaller screens
+
+
+---
+
+### Original Progress Summary
+
 #### 1. Component Structure & Styling
 - Implemented a responsive grid layout with left and right columns
 - Added glassmorphism effect to content cards with backdrop blur
