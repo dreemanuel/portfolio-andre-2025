@@ -1,21 +1,16 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FiMenu, FiX, FiCode, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
+import { useNavigationContext } from '../App';
 
-const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
+const Navbar = () => {
   const location = useLocation();
-
-  // Navbar scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const { 
+    isMenuOpen, 
+    setIsMenuOpen, 
+    navbarOpacity, 
+    isNavbarMode 
+  } = useNavigationContext();
 
   // Navigation links
   const navLinks = [
@@ -63,86 +58,170 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
 
   return (
     <>
-      {/* Desktop Navbar */}
+      {/* Dynamic Navbar - Only visible in navbar mode */}
       <motion.nav 
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? 'py-3 bg-ctp-base/80 backdrop-blur-md shadow-lg' : 'py-4 bg-transparent'
-        }`}
+        className="fixed top-0 left-0 right-0 z-50"
+        style={{ 
+          opacity: navbarOpacity,
+          pointerEvents: isNavbarMode ? 'auto' : 'none'
+        }}
         initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+        animate={{ 
+          y: isNavbarMode ? 0 : -100,
+          backdropFilter: isNavbarMode ? 'blur(20px)' : 'blur(0px)',
+        }}
+        transition={{ 
+          type: 'spring', 
+          stiffness: 300, 
+          damping: 30,
+          duration: 0.6 
+        }}
       >
-        <div className="container mx-auto px-6 flex justify-between items-center">
-          {/* Logo */}
-          <Link 
-            to="/" 
-            className="flex items-center space-x-2 text-ctp-text hover:text-ctp-blue transition-colors"
-            onClick={() => setIsMenuOpen(false)}
+        {/* Glassmorphism background */}
+        <div className="absolute inset-0 bg-ctp-base/80 border-b border-ctp-surface2/30" />
+        
+        {/* Navbar content */}
+        <div className="relative container mx-auto px-6 flex justify-between items-center">
+          {/* Logo - Transforms from Hero */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ 
+              opacity: isNavbarMode ? 1 : 0,
+              x: isNavbarMode ? 0 : -20 
+            }}
+            transition={{ 
+              type: 'spring', 
+              stiffness: 300, 
+              damping: 25,
+              delay: isNavbarMode ? 0.1 : 0
+            }}
           >
-            <FiCode className="text-2xl text-ctp-blue" />
-            <span className="text-xl font-bold font-mono">AE</span>
-          </Link>
+            <Link 
+              to="/" 
+              className="flex items-center space-x-3 text-ctp-text hover:text-ctp-blue transition-colors group"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <FiCode className="text-2xl text-ctp-blue group-hover:text-neon-cyan transition-colors" />
+              <span className="text-xl font-bold font-heading bg-gradient-to-r from-ctp-text to-ctp-blue bg-clip-text text-transparent">
+                Andre Emanuel
+              </span>
+            </Link>
+          </motion.div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
+          {/* Desktop Navigation - Cascading animation */}
+          <motion.div 
+            className="hidden md:flex items-center space-x-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isNavbarMode ? 1 : 0 }}
+            transition={{ delay: isNavbarMode ? 0.2 : 0 }}
+          >
+            {navLinks.map((link, index) => (
+              <motion.div
                 key={link.path}
-                to={link.path}
-                className={`relative px-3 py-2 text-sm font-medium transition-colors ${
-                  location.pathname === link.path 
-                    ? 'text-ctp-blue' 
-                    : 'text-ctp-text hover:text-ctp-blue/80'
-                }`}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ 
+                  opacity: isNavbarMode ? 1 : 0,
+                  y: isNavbarMode ? 0 : -10 
+                }}
+                transition={{ 
+                  type: 'spring',
+                  stiffness: 300,
+                  damping: 25,
+                  delay: isNavbarMode ? 0.3 + (index * 0.1) : 0
+                }}
               >
-                {link.name}
-                {location.pathname === link.path && (
-                  <motion.span 
-                    layoutId="activeNavIndicator"
-                    className="absolute left-0 bottom-0 w-full h-0.5 bg-gradient-to-r from-ctp-blue to-ctp-sapphire"
-                    initial={false}
-                  />
-                )}
-              </Link>
+                <Link
+                  to={link.path}
+                  className={`relative px-3 py-2 text-sm font-medium transition-colors hover:text-neon-cyan ${
+                    location.pathname === link.path 
+                      ? 'text-ctp-blue' 
+                      : 'text-ctp-text'
+                  }`}
+                >
+                  {link.name}
+                  {location.pathname === link.path && (
+                    <motion.span 
+                      layoutId="activeNavIndicator"
+                      className="absolute left-0 bottom-0 w-full h-0.5 bg-gradient-to-r from-neon-cyan to-neon-green"
+                      initial={false}
+                    />
+                  )}
+                </Link>
+              </motion.div>
             ))}
             
             {/* Social Icons */}
-            <div className="flex items-center space-x-4 ml-6">
+            <motion.div 
+              className="flex items-center space-x-4 ml-6"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ 
+                opacity: isNavbarMode ? 1 : 0,
+                x: isNavbarMode ? 0 : 20 
+              }}
+              transition={{ 
+                type: 'spring',
+                stiffness: 300,
+                damping: 25,
+                delay: isNavbarMode ? 0.7 : 0
+              }}
+            >
               {socialLinks.map((social, index) => (
                 <a
                   key={index}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-ctp-text hover:text-ctp-blue transition-colors"
+                  className="text-ctp-text hover:text-neon-cyan transition-colors p-2 rounded-lg hover:bg-ctp-surface0/30"
                   aria-label={social.url.split('/').pop()}
                 >
                   {social.icon}
                 </a>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Mobile Menu Button */}
-          <button 
-            className="md:hidden text-ctp-text hover:text-ctp-blue transition-colors"
+          <motion.button 
+            className="md:hidden text-ctp-text hover:text-neon-cyan transition-colors p-2 rounded-lg hover:bg-ctp-surface0/30"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ 
+              opacity: isNavbarMode ? 1 : 0,
+              scale: isNavbarMode ? 1 : 0.8
+            }}
+            transition={{ 
+              type: 'spring',
+              stiffness: 300,
+              damping: 25,
+              delay: isNavbarMode ? 0.3 : 0
+            }}
+            whileTap={{ scale: 0.95 }}
           >
-            {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-          </button>
+            <motion.div
+              animate={{ rotate: isMenuOpen ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+            </motion.div>
+          </motion.button>
         </div>
       </motion.nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Only visible in navbar mode */}
       <AnimatePresence>
-        {isMenuOpen && (
+        {isMenuOpen && isNavbarMode && (
           <motion.div 
             className="fixed inset-0 z-40 pt-20 bg-ctp-base/95 backdrop-blur-lg md:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ 
+              type: 'spring',
+              stiffness: 300,
+              damping: 30,
+              duration: 0.3 
+            }}
           >
             <motion.div 
               className="container mx-auto px-6 py-8"

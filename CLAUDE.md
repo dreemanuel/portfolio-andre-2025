@@ -28,6 +28,12 @@ This ensures consistent methodology and leverages the full agent ecosystem that 
 - `npm run build` - Build for production 
 - `npm run lint` - Run ESLint for code quality
 - `npm run preview` - Preview production build locally
+- `npm run test:db` - Test Supabase database connection
+
+### Database Commands
+- Database setup instructions: `database/SUPABASE_SETUP.md`
+- Table schema: `database/contact_submissions.sql`
+- Connection test: `npm run test:db` (requires `.env.local` with Supabase credentials)
 
 ### Project Structure
 This is a React + Vite portfolio website with the following key architecture:
@@ -73,9 +79,16 @@ This is a React + Vite portfolio website with the following key architecture:
 
 ## Important Files
 - `bmad-docs/PROJECT_CHECKLIST.md` - Comprehensive development checklist and progress tracking
+- `bmad-docs/stories/` - BMAD story files for development tracking
 - `DEVLOG.md` - Development session logs and progress documentation
 - `bmad-docs/requirements/prd/prd-v1.md` - Complete product requirements document
 - `src/data/projects.js` - Project showcase data structure
+
+## BMAD Story Management
+- **Story Files Location**: All story files are organized in `bmad-docs/stories/` directory
+- **Story Naming Convention**: `{EpicNum}.{StoryNum}.story.md` (e.g., `2.1.story.md`)
+- **Story Templates**: Use templates from `BMAD-METHOD/bmad-agent/templates/story-tmpl.md`
+- **Story DoD Checklist**: Located at `BMAD-METHOD/bmad-agent/checklists/story-dod-checklist.md`
 
 ## Code Style & Conventions
 - Uses ES6 modules and React functional components with hooks

@@ -1,17 +1,19 @@
 // src/components/HeroSection.jsx
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TypeAnimation } from 'react-type-animation';
 import SocialLinksDropdown from './SocialLinksDropdown';
+import { useNavigationContext } from '../App';
 
 const HeroSection = () => {
   const [mounted, setMounted] = useState(false);
-  const { scrollY } = useScroll();
-  
-  // Scroll-based animations
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const scale = useTransform(scrollY, [0, 300], [1, 0.9]);
+  const { 
+    heroOpacity, 
+    heroScale, 
+    isHeroMode,
+    SCROLL_THRESHOLD 
+  } = useNavigationContext();
 
   // Text cycling animation sequence
   const typingSequence = [
@@ -67,7 +69,11 @@ const HeroSection = () => {
   return (
     <motion.section 
       className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden"
-      style={{ opacity, scale }}
+      style={{ 
+        opacity: heroOpacity, 
+        scale: heroScale,
+        pointerEvents: isHeroMode ? 'auto' : 'none'
+      }}
     >
       {/* Animated background elements */}
       <div className="absolute inset-0 -z-10">
@@ -198,15 +204,22 @@ const HeroSection = () => {
                 I'm currently available for select freelance opportunities. Have an exciting project where you need my help?
               </motion.p>
 
-              <motion.div variants={itemVariants} className="space-y-4">
+              <motion.div variants={itemVariants} className="space-y-3">
                 <Link
                   to="/contact"
                   className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-ctp-base rounded-lg bg-gradient-to-r from-ctp-blue to-ctp-sapphire hover:opacity-90 transition-opacity w-full"
                 >
-                  Get In Touch
+                  Work with me
                 </Link>
                 
-                <div className="flex items-center justify-center space-x-4">
+                <Link
+                  to="/about"
+                  className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-ctp-text rounded-lg border border-ctp-surface2 hover:bg-ctp-surface0/30 transition-colors w-full"
+                >
+                  About Me
+                </Link>
+                
+                <div className="flex items-center justify-center space-x-4 pt-2">
                   <SocialLinksDropdown />
                 </div>
               </motion.div>
