@@ -1,3 +1,4 @@
+import React from 'react';
 import { HashRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useEffect, useState, createContext, useContext } from 'react';
@@ -141,6 +142,10 @@ const AppContent = () => {
 
 // Main App component
 const App = () => {
+  console.log('App component rendering');
+  console.log('React version:', React.version);
+  console.log('Current location:', window.location.href);
+  
   return (
     <div className="min-h-screen bg-ctp-base text-ctp-text">
       <style jsx global>{`

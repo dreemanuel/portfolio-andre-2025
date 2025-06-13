@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "test:db": "node database/test-connection.js",
     "deploy": "npm run build && echo 'Build complete! Push to GitHub to deploy to Pages.'",
-    "deploy-pages": "npm run build && gh-pages -d dist"
+    "deploy-pages": "npm run build && gh-pages -d dist -f"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
