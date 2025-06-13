@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:db": "node database/test-connection.js"
+    "test:db": "node database/test-connection.js",
+    "deploy": "npm run build && echo 'Build complete! Push to GitHub to deploy to Pages.'"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
