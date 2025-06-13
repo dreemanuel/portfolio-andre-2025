@@ -35,6 +35,12 @@ This ensures consistent methodology and leverages the full agent ecosystem that 
 - Table schema: `database/contact_submissions.sql`
 - Connection test: `npm run test:db` (requires `.env.local` with Supabase credentials)
 
+### Deployment Commands
+- Test production build: `npm run build`
+- Deploy command: `npm run deploy` (builds and shows push instructions)
+- GitHub Pages setup: `GITHUB_PAGES_SETUP.md`
+- Deployment checklist: `DEPLOYMENT_CHECKLIST.md`
+
 ### Project Structure
 This is a React + Vite portfolio website with the following key architecture:
 
