@@ -1,13 +1,66 @@
 // src/components/HeroSection.jsx
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { TypeAnimation } from 'react-type-animation';
 import SocialLinksDropdown from './SocialLinksDropdown';
 import { useNavigationContext } from '../App';
 
+// Mobile optimization hook
+const useMobileOptimizations = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [touchVelocity, setTouchVelocity] = useState(0);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile) return;
+
+    let lastTouchY = 0;
+    let lastTouchTime = 0;
+
+    const handleTouchStart = (e) => {
+      lastTouchY = e.touches[0].clientY;
+      lastTouchTime = Date.now();
+    };
+
+    const handleTouchMove = (e) => {
+      const currentY = e.touches[0].clientY;
+      const currentTime = Date.now();
+      const deltaY = currentY - lastTouchY;
+      const deltaTime = currentTime - lastTouchTime;
+      
+      if (deltaTime > 0) {
+        setTouchVelocity(Math.abs(deltaY / deltaTime));
+      }
+      
+      lastTouchY = currentY;
+      lastTouchTime = currentTime;
+    };
+
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: true });
+
+    return () => {
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, [isMobile]);
+
+  return { isMobile, touchVelocity };
+};
+
 const HeroSection = () => {
   const [mounted, setMounted] = useState(false);
+  const { isMobile, touchVelocity } = useMobileOptimizations();
   const { 
     isHeroMode,
     SCROLL_THRESHOLD 
@@ -16,26 +69,63 @@ const HeroSection = () => {
   // Custom scroll-based transforms for smoother hero transition
   const { scrollY } = useScroll();
   
-  // Opacity fades out quickly (first 60% of scroll threshold)
+  // Testing: Start at 200% + 4x duration for opacity
   const heroOpacity = useTransform(
     scrollY, 
-    [0, SCROLL_THRESHOLD * 0.6], 
-    [1, 0]
+    [0, SCROLL_THRESHOLD * 0.8, SCROLL_THRESHOLD * 2.8, SCROLL_THRESHOLD * 4.0], 
+    [1, 1, 0.3, 0]
   );
   
-  // Height shrinks more gradually (over full scroll threshold + buffer)
+  // Testing: Start at 200% + 4x duration for height  
   const heroHeight = useTransform(
     scrollY, 
-    [0, SCROLL_THRESHOLD * 0.3, SCROLL_THRESHOLD + 100], 
-    ['100vh', '100vh', '0vh']
+    [0, SCROLL_THRESHOLD * 1.0, SCROLL_THRESHOLD * 2.6, SCROLL_THRESHOLD * 4.2], 
+    ['100vh', '100vh', '20vh', '0vh']
   );
   
-  // Scale effect (subtle)
+  // Testing: Start at 200% + 4x duration for scale
   const heroScale = useTransform(
     scrollY, 
-    [0, SCROLL_THRESHOLD], 
-    [1, 0.95]
+    [0, SCROLL_THRESHOLD * 1.4, SCROLL_THRESHOLD * 3.4], 
+    [1, 0.95, 0.85]
   );
+
+  // Testing: Extended rotation to match new timeline
+  const heroRotation = useTransform(
+    scrollY,
+    [0, SCROLL_THRESHOLD * 3.4],
+    [0, -2]
+  );
+
+  // Mobile-optimized spring configurations
+  const mobileSpringConfig = useMemo(() => ({
+    opacity: {
+      stiffness: isMobile ? 250 : 300,
+      damping: isMobile ? 35 : 30,
+      mass: touchVelocity > 1 ? 0.6 : 0.8
+    },
+    scale: {
+      stiffness: isMobile ? 350 : 400,
+      damping: isMobile ? 45 : 40,
+      mass: touchVelocity > 1 ? 0.5 : 0.6
+    },
+    height: {
+      stiffness: isMobile ? 180 : 200,
+      damping: isMobile ? 30 : 25,
+      mass: touchVelocity > 1 ? 0.8 : 1
+    },
+    rotation: {
+      stiffness: isMobile ? 300 : 350,
+      damping: isMobile ? 40 : 35,
+      mass: touchVelocity > 1 ? 0.6 : 0.7
+    }
+  }), [isMobile, touchVelocity]);
+
+  // Spring-based transforms for smoother motion
+  const springOpacity = useSpring(heroOpacity, mobileSpringConfig.opacity);
+  const springScale = useSpring(heroScale, mobileSpringConfig.scale);
+  const springHeight = useSpring(heroHeight, mobileSpringConfig.height);
+  const springRotation = useSpring(heroRotation, mobileSpringConfig.rotation);
 
   // Text cycling animation sequence
   const typingSequence = [
@@ -63,63 +153,142 @@ const HeroSection = () => {
     return () => setMounted(false);
   }, []);
 
-  // Animation variants for framer-motion
+  // Enhanced animation variants for better timing
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3,
+        staggerChildren: 0.15,
+        delayChildren: 0.4,
+        type: 'spring',
+        stiffness: 100,
+        damping: 20
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { 
+      opacity: 0, 
+      y: 30,
+      scale: 0.9,
+      rotateX: 10
+    },
     show: { 
       opacity: 1, 
       y: 0,
+      scale: 1,
+      rotateX: 0,
       transition: {
         type: 'spring',
-        stiffness: 100,
-        damping: 15,
+        stiffness: 120,
+        damping: 18,
+        mass: 0.8
       },
     },
   };
 
   return (
     <motion.section 
-      className="relative flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden"
+      className="hero-section relative flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden"
       style={{ 
-        opacity: heroOpacity, 
-        scale: heroScale,
-        height: heroHeight,
-        minHeight: heroHeight,
-        pointerEvents: isHeroMode ? 'auto' : 'none'
+        opacity: springOpacity,
+        scale: springScale,
+        rotateX: springRotation,
+        height: springHeight,
+        minHeight: springHeight,
+        transformStyle: 'preserve-3d',
+        perspective: '1000px',
+        pointerEvents: isHeroMode ? 'auto' : 'none',
+        // Hardware acceleration
+        transform: 'translate3d(0, 0, 0)',
+        willChange: 'transform, opacity, height'
+      }}
+      transition={{
+        type: 'spring',
+        stiffness: 300,
+        damping: 30
       }}
     >
-      {/* Animated background elements */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-ctp-base to-ctp-mantle" />
-        <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+      {/* Enhanced background elements with parallax */}
+      <div className="absolute inset-0 -z-10" style={{ transform: 'translate3d(0, 0, 0)' }}>
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-br from-ctp-base to-ctp-mantle" 
+          style={{
+            scale: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.0], [1, 1.1])
+          }}
+        />
         
-        {/* Floating orbs */}
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-gradient-to-r from-ctp-pink/20 to-ctp-mauve/20 filter blur-3xl animate-float" />
-        <div className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-gradient-to-r from-ctp-blue/20 to-ctp-sapphire/20 filter blur-3xl animate-float animation-delay-2000" />
-        <div className="absolute top-1/3 right-1/3 w-48 h-48 rounded-full bg-gradient-to-r from-ctp-green/20 to-ctp-teal/20 filter blur-3xl animate-float animation-delay-4000" />
+        {/* Parallax floating orbs with enhanced motion */}
+        <motion.div 
+          className="floating-orb absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-gradient-to-r from-ctp-pink/20 to-ctp-mauve/20 filter blur-3xl"
+          style={{
+            y: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.0], [0, -50]),
+            scale: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.0], [1, 0.8]),
+            opacity: useTransform(scrollY, [0, SCROLL_THRESHOLD * 3.2], [1, 0])
+          }}
+          animate={{ 
+            y: [0, -10, 0],
+            scale: [1, 1.05, 1]
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        
+        <motion.div 
+          className="floating-orb absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-gradient-to-r from-ctp-blue/20 to-ctp-sapphire/20 filter blur-3xl"
+          style={{
+            y: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.0], [0, 30]),
+            scale: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.0], [1, 1.2]),
+            opacity: useTransform(scrollY, [0, SCROLL_THRESHOLD * 3.2], [1, 0])
+          }}
+          animate={{ 
+            y: [0, 15, 0],
+            scale: [1, 0.95, 1]
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+        />
+        
+        <motion.div 
+          className="floating-orb absolute top-1/3 right-1/3 w-48 h-48 rounded-full bg-gradient-to-r from-ctp-green/20 to-ctp-teal/20 filter blur-3xl"
+          style={{
+            y: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.0], [0, -20]),
+            scale: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.0], [1, 0.9]),
+            opacity: useTransform(scrollY, [0, SCROLL_THRESHOLD * 3.2], [1, 0])
+          }}
+          animate={{ 
+            y: [0, -8, 0],
+            scale: [1, 1.1, 1]
+          }}
+          transition={{
+            duration: 7,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 4
+          }}
+        />
       </div>
 
-      {/* Grid Pattern Overlay */}
-      <div className="absolute inset-0" style={{
-        backgroundImage: 'linear-gradient(rgba(138, 173, 244, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(138, 173, 244, 0.1) 1px, transparent 1px)',
-        backgroundSize: '40px 40px',
-        maskImage: 'radial-gradient(circle at center, black, transparent 70%)',
-      }}></div>
-      
-      {/* Glowing Orbs */}
-      <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-ctp-mauve/10 blur-3xl animate-pulse-slow"></div>
-      <div className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-ctp-blue/10 blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
+      {/* Enhanced grid pattern with parallax */}
+      <motion.div 
+        className="grid-pattern absolute inset-0" 
+        style={{
+          backgroundImage: 'linear-gradient(rgba(138, 173, 244, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(138, 173, 244, 0.1) 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+          maskImage: 'radial-gradient(circle at center, black, transparent 70%)',
+          y: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.0], [0, 100]),
+          opacity: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.4], [1, 0])
+        }}
+      />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

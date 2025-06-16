@@ -82,6 +82,34 @@ a {
   @apply border-2 border-neon-cyan shadow-neon;
 }
 
+/* Hardware acceleration optimizations */
+.hero-section {
+  /* Force hardware acceleration */
+  transform: translate3d(0, 0, 0);
+  will-change: transform, opacity, height;
+  
+  /* Optimize compositing */
+  contain: layout style paint;
+  
+  /* Smooth scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Optimize floating elements */
+.floating-orb {
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  contain: layout style paint;
+  backface-visibility: hidden;
+}
+
+/* Grid pattern optimization */
+.grid-pattern {
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  contain: strict;
+}
+
 /* Animations */
 @keyframes float {
   0%, 100% { transform: translateY(0); }
