@@ -97,27 +97,31 @@ const HeroSection = () => {
     [0, -2]
   );
 
-  // Mobile-optimized spring configurations
+  // Enhanced mobile-optimized spring configurations with smooth easing
   const mobileSpringConfig = useMemo(() => ({
     opacity: {
-      stiffness: isMobile ? 250 : 300,
-      damping: isMobile ? 35 : 30,
-      mass: touchVelocity > 1 ? 0.6 : 0.8
+      stiffness: isMobile ? 150 : 180,
+      damping: isMobile ? 40 : 35,
+      mass: touchVelocity > 1 ? 0.8 : 1,
+      ease: "easeInOut"
     },
     scale: {
-      stiffness: isMobile ? 350 : 400,
+      stiffness: isMobile ? 200 : 250,
       damping: isMobile ? 45 : 40,
-      mass: touchVelocity > 1 ? 0.5 : 0.6
+      mass: touchVelocity > 1 ? 0.7 : 0.9,
+      ease: "easeOut"
     },
     height: {
-      stiffness: isMobile ? 180 : 200,
-      damping: isMobile ? 30 : 25,
-      mass: touchVelocity > 1 ? 0.8 : 1
+      stiffness: isMobile ? 120 : 140,
+      damping: isMobile ? 35 : 30,
+      mass: touchVelocity > 1 ? 1 : 1.2,
+      ease: "easeInOut"
     },
     rotation: {
-      stiffness: isMobile ? 300 : 350,
-      damping: isMobile ? 40 : 35,
-      mass: touchVelocity > 1 ? 0.6 : 0.7
+      stiffness: isMobile ? 160 : 200,
+      damping: isMobile ? 42 : 38,
+      mass: touchVelocity > 1 ? 0.8 : 1,
+      ease: "easeOut"
     }
   }), [isMobile, touchVelocity]);
 
@@ -207,8 +211,10 @@ const HeroSection = () => {
       }}
       transition={{
         type: 'spring',
-        stiffness: 300,
-        damping: 30
+        stiffness: 150,
+        damping: 25,
+        mass: 1.2,
+        bounce: 0.3
       }}
     >
       {/* Transparent background - waves come from global background */}
@@ -234,6 +240,13 @@ const HeroSection = () => {
             variants={containerVariants}
             initial="hidden"
             animate={mounted ? "show" : "hidden"}
+            transition={{
+              type: 'spring',
+              stiffness: 100,
+              damping: 20,
+              mass: 1,
+              bounce: 0.4
+            }}
             key="left-column"
           >
             {/* Gradient Border */}
@@ -301,6 +314,14 @@ const HeroSection = () => {
             variants={containerVariants}
             initial="hidden"
             animate={mounted ? "show" : "hidden"}
+            transition={{
+              type: 'spring',
+              stiffness: 100,
+              damping: 20,
+              mass: 1,
+              bounce: 0.4,
+              delay: 0.1
+            }}
             key="right-column"
           >
             {/* Gradient Border */}

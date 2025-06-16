@@ -59,6 +59,7 @@ const ProjectShowcase = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isTransitioning]);
 
+  // Simple values for collapsed header based on scroll detection
   const collapsedHeaderOpacity = isTransitioning ? 1 : 0;
   const collapsedHeaderY = isTransitioning ? 0 : -50;
 
@@ -76,15 +77,17 @@ const ProjectShowcase = () => {
   });
   
   const springCollapsedOpacity = useSpring(collapsedHeaderOpacity, {
-    stiffness: 300,
-    damping: 30,
-    mass: 0.8
+    stiffness: 250,
+    damping: 45,
+    mass: 1.2,
+    ease: "easeInOut"
   });
   
   const springCollapsedY = useSpring(collapsedHeaderY, {
-    stiffness: 350,
-    damping: 35,
-    mass: 0.7
+    stiffness: 220,
+    damping: 42,
+    mass: 1,
+    ease: "easeOut"
   });
   
 
@@ -270,8 +273,20 @@ const ProjectShowcase = () => {
       {/* Collapsed Sticky Header - Fades in as full header fades out */}
       <motion.div 
         className="fixed top-[32px] left-0 right-0 z-40 bg-ctp-base/95 backdrop-blur-md border-b border-ctp-surface2/30"
+        animate={{
+          opacity: isTransitioning ? 1 : 0,
+          y: isTransitioning ? 0 : -50,
+        }}
+        transition={{
+          opacity: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
+          y: { 
+            type: "spring",
+            stiffness: 120,
+            damping: 12,
+            mass: 1
+          }
+        }}
         style={{
-          opacity: isTransitioning ? 1 : 0, // Direct boolean control instead of spring
           pointerEvents: isTransitioning ? 'auto' : 'none'
         }}
       >
