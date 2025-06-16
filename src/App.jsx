@@ -8,6 +8,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import Footer from './components/Footer';
+import GlobalWavesBackground from './components/GlobalWavesBackground';
 
 // Pages
 import HomePage from './pages/HomePage';
@@ -189,6 +190,7 @@ const App = () => {
             min-height: 100vh;
           }
         `}</style>
+        <GlobalWavesBackground />
         <AnimatedBackground />
         <Router>
           <NavigationProvider>

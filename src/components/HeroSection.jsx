@@ -69,11 +69,11 @@ const HeroSection = () => {
   // Custom scroll-based transforms for smoother hero transition
   const { scrollY } = useScroll();
   
-  // Testing: Start at 200% + 4x duration for opacity
+  // Keep opacity constant - no fade effect during transitions
   const heroOpacity = useTransform(
     scrollY, 
-    [0, SCROLL_THRESHOLD * 0.8, SCROLL_THRESHOLD * 2.8, SCROLL_THRESHOLD * 4.0], 
-    [1, 1, 0.3, 0]
+    [0, SCROLL_THRESHOLD * 10], 
+    [1, 1]
   );
   
   // Testing: Start at 200% + 4x duration for height  
@@ -191,7 +191,7 @@ const HeroSection = () => {
 
   return (
     <motion.section 
-      className="hero-section relative flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden min-h-screen"
+      className="hero-section relative flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden min-h-screen z-10"
       style={{ 
         opacity: springOpacity,
         scale: springScale,
@@ -211,84 +211,8 @@ const HeroSection = () => {
         damping: 30
       }}
     >
-      {/* Enhanced background elements with parallax */}
-      <div className="absolute inset-0 -z-10" style={{ transform: 'translate3d(0, 0, 0)' }}>
-        <motion.div 
-          className="absolute inset-0 bg-gradient-to-br from-ctp-base to-ctp-mantle" 
-          style={{
-            scale: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.0], [1, 1.1])
-          }}
-        />
-        
-        {/* Parallax floating orbs with enhanced motion */}
-        <motion.div 
-          className="floating-orb absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-gradient-to-r from-ctp-pink/20 to-ctp-mauve/20 filter blur-3xl"
-          style={{
-            y: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.0], [0, -50]),
-            scale: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.0], [1, 0.8]),
-            opacity: useTransform(scrollY, [0, SCROLL_THRESHOLD * 3.2], [1, 0])
-          }}
-          animate={{ 
-            y: [0, -10, 0],
-            scale: [1, 1.05, 1]
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        
-        <motion.div 
-          className="floating-orb absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-gradient-to-r from-ctp-blue/20 to-ctp-sapphire/20 filter blur-3xl"
-          style={{
-            y: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.0], [0, 30]),
-            scale: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.0], [1, 1.2]),
-            opacity: useTransform(scrollY, [0, SCROLL_THRESHOLD * 3.2], [1, 0])
-          }}
-          animate={{ 
-            y: [0, 15, 0],
-            scale: [1, 0.95, 1]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }}
-        />
-        
-        <motion.div 
-          className="floating-orb absolute top-1/3 right-1/3 w-48 h-48 rounded-full bg-gradient-to-r from-ctp-green/20 to-ctp-teal/20 filter blur-3xl"
-          style={{
-            y: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.0], [0, -20]),
-            scale: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.0], [1, 0.9]),
-            opacity: useTransform(scrollY, [0, SCROLL_THRESHOLD * 3.2], [1, 0])
-          }}
-          animate={{ 
-            y: [0, -8, 0],
-            scale: [1, 1.1, 1]
-          }}
-          transition={{
-            duration: 7,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 4
-          }}
-        />
-      </div>
-
-      {/* Enhanced grid pattern with parallax */}
-      <motion.div 
-        className="grid-pattern absolute inset-0" 
-        style={{
-          backgroundImage: 'linear-gradient(rgba(138, 173, 244, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(138, 173, 244, 0.1) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-          maskImage: 'radial-gradient(circle at center, black, transparent 70%)',
-          y: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.0], [0, 100]),
-          opacity: useTransform(scrollY, [0, SCROLL_THRESHOLD * 2.4], [1, 0])
-        }}
-      />
+      {/* Transparent background - waves come from global background */}
+      <div className="absolute inset-0 -z-10 bg-transparent"></div>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -298,15 +222,21 @@ const HeroSection = () => {
             className="lg:col-span-7 flex flex-col justify-center p-12 lg:p-16"
             style={{
               position: 'relative',
-              background: 'linear-gradient(to right, rgba(36, 39, 58, 0.8), rgba(41, 44, 60, 0.8))',
+              background: 'linear-gradient(to right, rgba(36, 39, 58, 0.75), rgba(41, 44, 60, 0.75))',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
               borderRadius: '1.5rem',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
               overflow: 'hidden',
+              willChange: 'transform, opacity',
             }}
             variants={containerVariants}
             initial="hidden"
             animate={mounted ? "show" : "hidden"}
             key="left-column"
           >
+            {/* Gradient Border */}
             <div style={{
               position: 'absolute',
               top: 0,
@@ -359,15 +289,21 @@ const HeroSection = () => {
             className="lg:col-span-5 flex flex-col justify-center p-12 lg:p-16 text-left"
             style={{
               position: 'relative',
-              background: 'linear-gradient(to right, rgba(36, 39, 58, 0.8), rgba(41, 44, 60, 0.8))',
+              background: 'linear-gradient(to right, rgba(36, 39, 58, 0.75), rgba(41, 44, 60, 0.75))',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
               borderRadius: '1.5rem',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
               overflow: 'hidden',
+              willChange: 'transform, opacity',
             }}
             variants={containerVariants}
             initial="hidden"
             animate={mounted ? "show" : "hidden"}
             key="right-column"
           >
+            {/* Gradient Border */}
             <div style={{
               position: 'absolute',
               top: 0,
@@ -382,6 +318,7 @@ const HeroSection = () => {
               maskComposite: 'exclude',
               pointerEvents: 'none'
             }} />
+            
             <div className="space-y-6">
               <motion.h2 
                 variants={itemVariants}

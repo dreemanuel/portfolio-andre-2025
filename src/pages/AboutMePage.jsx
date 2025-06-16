@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import SEO from "../components/SEO";
+import Noise from "../components/ui/Animations/Noise/Noise";
 import { 
   FiCode, 
   FiServer, 
@@ -62,7 +63,7 @@ const AboutMePage = () => {
         keywords="Andre Emanuel, about, career transition, F&B management, full-stack developer, Bali developer, professional background"
       />
       <motion.div
-        className="min-h-screen bg-ctp-base text-ctp-text"
+        className="min-h-screen bg-transparent text-ctp-text relative z-10"
         variants={pageVariants}
         initial="hidden"
         animate="visible"
@@ -148,6 +149,17 @@ const AboutMePage = () => {
                   border: '1px solid rgba(198, 208, 245, 0.1)'
                 }}
               >
+                {/* Noise effect */}
+                <div className="absolute inset-0 opacity-30 pointer-events-none">
+                  <Noise 
+                    patternSize={100}
+                    patternScaleX={1}
+                    patternScaleY={1}
+                    patternRefreshInterval={3}
+                    patternAlpha={25}
+                  />
+                </div>
+                
                 <div 
                   className="absolute inset-0 rounded-2xl pointer-events-none"
                   style={{
@@ -159,7 +171,7 @@ const AboutMePage = () => {
                     padding: '1px'
                   }}
                 />
-                <div className="relative p-8">
+                <div className="relative p-8 z-10">
                   <h3 className="text-xl font-semibold text-neon-cyan mb-4">Quick Stats</h3>
                   <div className="space-y-3">
                     <div className="flex justify-between">
@@ -203,7 +215,7 @@ const AboutMePage = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Development */}
             <motion.div 
-              className="p-6 rounded-xl bg-ctp-surface0/30 border border-ctp-surface2/20"
+              className="p-6 rounded-xl bg-ctp-base/80 backdrop-blur-xl border border-ctp-surface2/30"
               variants={skillVariants}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
             >
@@ -218,7 +230,7 @@ const AboutMePage = () => {
 
             {/* Backend */}
             <motion.div 
-              className="p-6 rounded-xl bg-ctp-surface0/30 border border-ctp-surface2/20"
+              className="p-6 rounded-xl bg-ctp-base/80 backdrop-blur-xl border border-ctp-surface2/30"
               variants={skillVariants}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
             >
@@ -233,7 +245,7 @@ const AboutMePage = () => {
 
             {/* Database */}
             <motion.div 
-              className="p-6 rounded-xl bg-ctp-surface0/30 border border-ctp-surface2/20"
+              className="p-6 rounded-xl bg-ctp-base/80 backdrop-blur-xl border border-ctp-surface2/30"
               variants={skillVariants}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
             >
@@ -248,7 +260,7 @@ const AboutMePage = () => {
 
             {/* Systems */}
             <motion.div 
-              className="p-6 rounded-xl bg-ctp-surface0/30 border border-ctp-surface2/20"
+              className="p-6 rounded-xl bg-ctp-base/80 backdrop-blur-xl border border-ctp-surface2/30"
               variants={skillVariants}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
             >
@@ -338,7 +350,7 @@ const AboutMePage = () => {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <motion.div 
-              className="p-6 rounded-xl bg-ctp-surface0/30 border border-ctp-surface2/20 text-center"
+              className="p-6 rounded-xl bg-ctp-base/80 backdrop-blur-xl border border-ctp-surface2/30 text-center"
               variants={skillVariants}
               whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
             >
@@ -350,7 +362,7 @@ const AboutMePage = () => {
             </motion.div>
 
             <motion.div 
-              className="p-6 rounded-xl bg-ctp-surface0/30 border border-ctp-surface2/20 text-center"
+              className="p-6 rounded-xl bg-ctp-base/80 backdrop-blur-xl border border-ctp-surface2/30 text-center"
               variants={skillVariants}
               whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
             >
@@ -362,7 +374,7 @@ const AboutMePage = () => {
             </motion.div>
 
             <motion.div 
-              className="p-6 rounded-xl bg-ctp-surface0/30 border border-ctp-surface2/20 text-center"
+              className="p-6 rounded-xl bg-ctp-base/80 backdrop-blur-xl border border-ctp-surface2/30 text-center"
               variants={skillVariants}
               whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
             >
@@ -374,7 +386,7 @@ const AboutMePage = () => {
             </motion.div>
 
             <motion.div 
-              className="p-6 rounded-xl bg-ctp-surface0/30 border border-ctp-surface2/20 text-center"
+              className="p-6 rounded-xl bg-ctp-base/80 backdrop-blur-xl border border-ctp-surface2/30 text-center"
               variants={skillVariants}
               whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
             >
