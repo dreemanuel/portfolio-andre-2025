@@ -33,18 +33,35 @@ const NavigationProvider = ({ children }) => {
   const [navigationMode, setNavigationMode] = useState('hero'); // 'hero' | 'navbar'
   const [scrollDirection, setScrollDirection] = useState('down');
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [viewportWidth, setViewportWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
   
   const { scrollY } = useScroll();
   
-  // Scroll threshold for hero-to-navbar transition (100px as per story requirements)
-  const SCROLL_THRESHOLD = 100;
+  // Responsive scroll thresholds based on device type
+  const getScrollThreshold = () => {
+    if (viewportWidth < 768) return 150; // Mobile: more scroll before transition
+    if (viewportWidth < 1024) return 125; // Tablet: intermediate threshold
+    return 100; // Desktop: current threshold maintained
+  };
+  
+  const SCROLL_THRESHOLD = getScrollThreshold();
   
   // Transform values for smooth transitions
   const heroOpacity = useTransform(scrollY, [0, SCROLL_THRESHOLD], [1, 0]);
   const heroScale = useTransform(scrollY, [0, SCROLL_THRESHOLD], [1, 0.95]);
   const navbarOpacity = useTransform(scrollY, [SCROLL_THRESHOLD - 50, SCROLL_THRESHOLD], [0, 1]);
   
-  // Scroll detection and direction tracking
+  // Viewport width detection for responsive thresholds
+  useEffect(() => {
+    const updateViewportWidth = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', updateViewportWidth, { passive: true });
+    return () => window.removeEventListener('resize', updateViewportWidth);
+  }, []);
+
+  // Scroll detection and direction tracking with hysteresis
   useEffect(() => {
     const updateScrollDirection = () => {
       const currentScrollY = window.scrollY;
@@ -54,10 +71,14 @@ const NavigationProvider = ({ children }) => {
         setScrollDirection(direction);
       }
       
-      // Update navigation mode based on scroll position and direction
-      if (currentScrollY > SCROLL_THRESHOLD && navigationMode === 'hero') {
+      // Add hysteresis to prevent flickering - different thresholds for up/down
+      const thresholdUp = SCROLL_THRESHOLD - 20; // 20px hysteresis
+      const thresholdDown = SCROLL_THRESHOLD + 10; // 10px hysteresis
+      
+      // Update navigation mode based on scroll position and direction with hysteresis
+      if (currentScrollY > thresholdDown && navigationMode === 'hero') {
         setNavigationMode('navbar');
-      } else if (currentScrollY <= SCROLL_THRESHOLD && navigationMode === 'navbar') {
+      } else if (currentScrollY < thresholdUp && navigationMode === 'navbar') {
         setNavigationMode('hero');
       }
       
@@ -81,6 +102,7 @@ const NavigationProvider = ({ children }) => {
     setIsMenuOpen,
     navigationMode,
     scrollDirection,
+    viewportWidth,
     
     // Transform values
     heroOpacity,
@@ -93,6 +115,9 @@ const NavigationProvider = ({ children }) => {
     // Utilities
     isHeroMode: navigationMode === 'hero',
     isNavbarMode: navigationMode === 'navbar',
+    isMobile: viewportWidth < 768,
+    isTablet: viewportWidth >= 768 && viewportWidth < 1024,
+    isDesktop: viewportWidth >= 1024,
   };
 
   return (

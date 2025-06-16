@@ -118,6 +118,66 @@ const projects = [
     githubUrl: "https://github.com/andre/crypto-tracker-pro",
     featured: false,
     status: "completed"
+  },
+  {
+    id: "project-7",
+    title: "MedFlow Healthcare Platform",
+    thumbnail: "/images/medflow-thumb.webp",
+    date: "2024-01-10",
+    technologies: ["Angular", "Spring Boot", "PostgreSQL", "Docker"],
+    industry: "Healthcare",
+    description: "Comprehensive healthcare management platform connecting patients, doctors, and medical facilities with secure data handling and telemedicine capabilities.",
+    detailedDescription: "MedFlow revolutionizes healthcare management by providing a unified platform for patient records, appointment scheduling, telemedicine consultations, and medical data analytics. The platform ensures HIPAA compliance with end-to-end encryption and features real-time communication tools, prescription management, and integrated billing systems. Built with enterprise-grade security and scalability in mind.",
+    screenshots: [
+      "/images/medflow-dashboard.webp",
+      "/images/medflow-appointments.webp",
+      "/images/medflow-telemedicine.webp",
+      "/images/medflow-records.webp"
+    ],
+    websiteUrl: "https://medflow-demo.vercel.app",
+    githubUrl: "https://github.com/andre/medflow-platform",
+    featured: true,
+    status: "completed"
+  },
+  {
+    id: "project-8",
+    title: "Nexus Social Network",
+    thumbnail: "/images/nexus-social-thumb.webp",
+    date: "2023-12-05",
+    technologies: ["Svelte", "FastAPI", "Redis", "AWS S3"],
+    industry: "Social Media",
+    description: "Next-generation social networking platform with AI-powered content curation, real-time messaging, and immersive media sharing capabilities.",
+    detailedDescription: "Nexus redefines social networking with AI-driven content discovery, advanced privacy controls, and seamless multimedia sharing. The platform features real-time messaging, group collaboration tools, and an innovative feed algorithm that prioritizes meaningful connections. Built with modern web technologies for lightning-fast performance and includes advanced moderation tools and content analytics.",
+    screenshots: [
+      "/images/nexus-feed.webp",
+      "/images/nexus-messaging.webp",
+      "/images/nexus-profile.webp",
+      "/images/nexus-groups.webp"
+    ],
+    websiteUrl: "https://nexus-social-demo.vercel.app",
+    githubUrl: "https://github.com/andre/nexus-social-network",
+    featured: false,
+    status: "completed"
+  },
+  {
+    id: "project-9",
+    title: "EduVerse Learning Platform",
+    thumbnail: "/images/eduverse-thumb.webp",
+    date: "2023-10-20",
+    technologies: ["Nuxt.js", "Supabase", "Stripe", "WebRTC"],
+    industry: "Education",
+    description: "Immersive online learning platform with interactive courses, live virtual classrooms, and gamified progression tracking for enhanced student engagement.",
+    detailedDescription: "EduVerse transforms online education through interactive multimedia courses, live virtual classrooms, and gamified learning experiences. The platform features adaptive learning algorithms, real-time collaboration tools, progress tracking with achievements, and integrated assessment systems. Designed for scalability to support thousands of concurrent users with high-quality video streaming and interactive content delivery.",
+    screenshots: [
+      "/images/eduverse-courses.webp",
+      "/images/eduverse-classroom.webp",
+      "/images/eduverse-progress.webp",
+      "/images/eduverse-assignments.webp"
+    ],
+    websiteUrl: "https://eduverse-demo.vercel.app",
+    githubUrl: "https://github.com/andre/eduverse-platform",
+    featured: false,
+    status: "completed"
   }
 ];
 

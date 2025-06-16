@@ -72,9 +72,9 @@ const Navbar = () => {
         }}
         transition={{ 
           type: 'spring', 
-          stiffness: 300, 
-          damping: 30,
-          duration: 0.6 
+          stiffness: 250, 
+          damping: 35,
+          duration: 0.8 
         }}
       >
         {/* Glassmorphism background */}
@@ -91,9 +91,10 @@ const Navbar = () => {
             }}
             transition={{ 
               type: 'spring', 
-              stiffness: 300, 
-              damping: 25,
-              delay: isNavbarMode ? 0.1 : 0
+              stiffness: 250, 
+              damping: 30,
+              delay: isNavbarMode ? 0.15 : 0,
+              duration: 0.8
             }}
           >
             <Link 
@@ -113,7 +114,11 @@ const Navbar = () => {
             className="hidden md:flex items-center space-x-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: isNavbarMode ? 1 : 0 }}
-            transition={{ delay: isNavbarMode ? 0.2 : 0 }}
+            transition={{ 
+              delay: isNavbarMode ? 0.25 : 0,
+              duration: 0.8,
+              ease: [0.25, 0.1, 0.25, 1.0]
+            }}
           >
             {navLinks.map((link, index) => (
               <motion.div
@@ -125,9 +130,10 @@ const Navbar = () => {
                 }}
                 transition={{ 
                   type: 'spring',
-                  stiffness: 300,
-                  damping: 25,
-                  delay: isNavbarMode ? 0.3 + (index * 0.1) : 0
+                  stiffness: 250,
+                  damping: 30,
+                  delay: isNavbarMode ? 0.35 + (index * 0.15) : 0,
+                  duration: 0.8
                 }}
               >
                 <Link
@@ -160,9 +166,10 @@ const Navbar = () => {
               }}
               transition={{ 
                 type: 'spring',
-                stiffness: 300,
-                damping: 25,
-                delay: isNavbarMode ? 0.7 : 0
+                stiffness: 250,
+                damping: 30,
+                delay: isNavbarMode ? 0.85 : 0,
+                duration: 0.8
               }}
             >
               {socialLinks.map((social, index) => (
@@ -192,9 +199,10 @@ const Navbar = () => {
             }}
             transition={{ 
               type: 'spring',
-              stiffness: 300,
-              damping: 25,
-              delay: isNavbarMode ? 0.3 : 0
+              stiffness: 250,
+              damping: 30,
+              delay: isNavbarMode ? 0.4 : 0,
+              duration: 0.8
             }}
             whileTap={{ scale: 0.95 }}
           >
@@ -218,9 +226,9 @@ const Navbar = () => {
             exit={{ opacity: 0, y: -20 }}
             transition={{ 
               type: 'spring',
-              stiffness: 300,
-              damping: 30,
-              duration: 0.3 
+              stiffness: 250,
+              damping: 35,
+              duration: 0.5 
             }}
           >
             <motion.div 

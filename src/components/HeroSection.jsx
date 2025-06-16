@@ -1,5 +1,5 @@
 // src/components/HeroSection.jsx
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TypeAnimation } from 'react-type-animation';
@@ -9,11 +9,33 @@ import { useNavigationContext } from '../App';
 const HeroSection = () => {
   const [mounted, setMounted] = useState(false);
   const { 
-    heroOpacity, 
-    heroScale, 
     isHeroMode,
     SCROLL_THRESHOLD 
   } = useNavigationContext();
+  
+  // Custom scroll-based transforms for smoother hero transition
+  const { scrollY } = useScroll();
+  
+  // Opacity fades out quickly (first 60% of scroll threshold)
+  const heroOpacity = useTransform(
+    scrollY, 
+    [0, SCROLL_THRESHOLD * 0.6], 
+    [1, 0]
+  );
+  
+  // Height shrinks more gradually (over full scroll threshold + buffer)
+  const heroHeight = useTransform(
+    scrollY, 
+    [0, SCROLL_THRESHOLD * 0.3, SCROLL_THRESHOLD + 100], 
+    ['100vh', '100vh', '0vh']
+  );
+  
+  // Scale effect (subtle)
+  const heroScale = useTransform(
+    scrollY, 
+    [0, SCROLL_THRESHOLD], 
+    [1, 0.95]
+  );
 
   // Text cycling animation sequence
   const typingSequence = [
@@ -68,10 +90,12 @@ const HeroSection = () => {
 
   return (
     <motion.section 
-      className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden"
+      className="relative flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden"
       style={{ 
         opacity: heroOpacity, 
         scale: heroScale,
+        height: heroHeight,
+        minHeight: heroHeight,
         pointerEvents: isHeroMode ? 'auto' : 'none'
       }}
     >
