@@ -60,7 +60,7 @@ const Navbar = () => {
     <>
       {/* Dynamic Navbar - Only visible in navbar mode */}
       <motion.nav 
-        className="sticky top-0 left-0 right-0 z-50"
+        className="fixed top-0 left-0 right-0 z-50"
         style={{ 
           opacity: navbarOpacity,
           pointerEvents: isNavbarMode ? 'auto' : 'none'

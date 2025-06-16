@@ -19,19 +19,36 @@ const ProjectShowcase = () => {
   const projectGridRef = useRef(null);
   const { scrollY } = useScroll();
   
-  // Simple approach: Use scroll distance from when user reaches the project grid
+  // Track when showcase becomes sticky and start transitions from there
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showcaseStickyPosition, setShowcaseStickyPosition] = useState(0);
   
+  // Calculate dynamic scroll start position
+  useEffect(() => {
+    if (sectionRef.current) {
+      const sectionTop = sectionRef.current.offsetTop;
+      setShowcaseStickyPosition(sectionTop);
+    }
+  }, []);
+  
+  // Create smooth transform values - Start transitions AFTER showcase becomes sticky
+  const fullHeaderOpacity = useTransform(
+    scrollY, 
+    [showcaseStickyPosition, showcaseStickyPosition + 200, showcaseStickyPosition + 400], 
+    [1, 0.5, 0.2]
+  );
+  const fullHeaderScale = useTransform(
+    scrollY, 
+    [showcaseStickyPosition, showcaseStickyPosition + 200, showcaseStickyPosition + 400], 
+    [1, 0.92, 0.85]
+  );
+  
+  // Simple boolean state for collapsed header
   useEffect(() => {
     const handleScroll = () => {
-      if (sectionRef.current && fullHeaderRef.current) {
-        const sectionRect = sectionRef.current.getBoundingClientRect();
+      if (fullHeaderRef.current) {
         const headerRect = fullHeaderRef.current.getBoundingClientRect();
-        
-        // When the full header has mostly scrolled past the top of viewport
-        // This means we're deep into the showcase section
-        const shouldTransition = headerRect.bottom <= 100; // When header is mostly gone
-        
+        const shouldTransition = headerRect.bottom <= 100;
         if (shouldTransition !== isTransitioning) {
           setIsTransitioning(shouldTransition);
         }
@@ -42,23 +59,20 @@ const ProjectShowcase = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isTransitioning]);
 
-  // Use the boolean state to directly control animations
-  const fullHeaderOpacity = isTransitioning ? 0 : 1;
-  const fullHeaderScale = isTransitioning ? 0.9 : 1;
   const collapsedHeaderOpacity = isTransitioning ? 1 : 0;
   const collapsedHeaderY = isTransitioning ? 0 : -50;
 
-  // Spring-based transforms for smooth motion
+  // Spring-based transforms for smooth motion - Much faster for compact showcase header
   const springFullOpacity = useSpring(fullHeaderOpacity, {
-    stiffness: 300,
-    damping: 30,
-    mass: 0.8
+    stiffness: 600,
+    damping: 50,
+    mass: 0.4
   });
   
   const springFullScale = useSpring(fullHeaderScale, {
-    stiffness: 400,
-    damping: 40,
-    mass: 0.6
+    stiffness: 700,
+    damping: 55,
+    mass: 0.3
   });
   
   const springCollapsedOpacity = useSpring(collapsedHeaderOpacity, {
@@ -178,7 +192,7 @@ const ProjectShowcase = () => {
       {/* Full Header - Scales and fades on scroll */}
       <motion.div 
         ref={fullHeaderRef} 
-        className="relative"
+        className="relative mt-[40px]"
         style={{
           opacity: springFullOpacity,
           scale: springFullScale,
@@ -194,7 +208,7 @@ const ProjectShowcase = () => {
               initial="hidden"
               animate="show"
             >
-              <h2 className="text-3xl md:text-4xl font-heading font-bold text-ctp-text mb-4">
+              <h2 className="text-4xl md:text-5xl font-heading font-bold text-ctp-text mb-4">
                 Featured{' '}
                 <span className="bg-gradient-to-r from-neon-cyan to-neon-green bg-clip-text text-transparent">
                   Projects
@@ -266,7 +280,7 @@ const ProjectShowcase = () => {
 
       {/* Collapsed Sticky Header - Fades in as full header fades out */}
       <motion.div 
-        className="sticky top-[52px] left-0 right-0 z-40 bg-ctp-base/95 backdrop-blur-md border-b border-ctp-surface2/30"
+        className="fixed top-[32px] left-0 right-0 z-40 bg-ctp-base/95 backdrop-blur-md border-b border-ctp-surface2/30"
         style={{
           opacity: isTransitioning ? 1 : 0, // Direct boolean control instead of spring
           pointerEvents: isTransitioning ? 'auto' : 'none'

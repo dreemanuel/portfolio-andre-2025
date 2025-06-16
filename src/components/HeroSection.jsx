@@ -191,7 +191,7 @@ const HeroSection = () => {
 
   return (
     <motion.section 
-      className="hero-section relative flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden"
+      className="hero-section relative flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden min-h-screen"
       style={{ 
         opacity: springOpacity,
         scale: springScale,
