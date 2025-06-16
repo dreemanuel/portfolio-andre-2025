@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { FiExternalLink, FiGithub, FiCalendar, FiTag } from 'react-icons/fi';
+import LazyImage from './LazyImage';
 
 const ProjectTile = ({ project, onOpenModal, className = '' }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -80,12 +81,23 @@ const ProjectTile = ({ project, onOpenModal, className = '' }) => {
     >
       {/* Project Thumbnail */}
       <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-ctp-surface0 to-ctp-surface1">
-        {/* Placeholder for project thumbnail */}
-        <div className="absolute inset-0 bg-gradient-to-br from-ctp-blue/20 to-ctp-mauve/20 flex items-center justify-center">
-          <div className="text-ctp-text/60 text-sm font-mono">
-            {project.title}
-          </div>
-        </div>
+        {/* Use LazyImage for project thumbnail with fallback */}
+        <LazyImage
+          src={project.heroImage || `/images/projects/${project.id}/thumbnail.webp`}
+          alt={`${project.title} - Project Screenshot`}
+          className="absolute inset-0"
+          placeholder={
+            <div className="absolute inset-0 bg-gradient-to-br from-ctp-blue/20 to-ctp-mauve/20 flex items-center justify-center">
+              <div className="text-ctp-text/60 text-sm font-mono">
+                {project.title}
+              </div>
+            </div>
+          }
+          onError={() => {
+            // Fallback to placeholder if image fails to load
+            console.warn(`Failed to load image for project: ${project.title}`);
+          }}
+        />
         
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-ctp-base/80 via-transparent to-transparent" />

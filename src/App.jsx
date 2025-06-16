@@ -2,10 +2,12 @@ import React from 'react';
 import { HashRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useEffect, useState, createContext, useContext } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 
 // Components
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
+import Footer from './components/Footer';
 
 // Pages
 import HomePage from './pages/HomePage';
@@ -172,29 +174,32 @@ const App = () => {
   console.log('Current location:', window.location.href);
   
   return (
-    <div className="min-h-screen bg-ctp-base text-ctp-text">
-      <style jsx global>{`
-        :root {
-          --ctp-base: #303446;
-          --ctp-text: #c6d0f5;
-        }
-        body {
-          background-color: var(--ctp-base);
-          color: var(--ctp-text);
-          margin: 0;
-          padding: 0;
-          min-height: 100vh;
-        }
-      `}</style>
-      <AnimatedBackground />
-      <Router>
-        <NavigationProvider>
-          <Navbar />
-          <ScrollToTop />
-          <AppContent />
-        </NavigationProvider>
-      </Router>
-    </div>
+    <HelmetProvider>
+      <div className="min-h-screen bg-ctp-base text-ctp-text">
+        <style jsx global>{`
+          :root {
+            --ctp-base: #303446;
+            --ctp-text: #c6d0f5;
+          }
+          body {
+            background-color: var(--ctp-base);
+            color: var(--ctp-text);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+          }
+        `}</style>
+        <AnimatedBackground />
+        <Router>
+          <NavigationProvider>
+            <Navbar />
+            <ScrollToTop />
+            <AppContent />
+            <Footer />
+          </NavigationProvider>
+        </Router>
+      </div>
+    </HelmetProvider>
   );
 };
 

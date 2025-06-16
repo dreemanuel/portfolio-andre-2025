@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://andre-emanuel.github.io/portfolio-andre-2025/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Disallow admin or private areas (none currently)
+# Disallow: /admin/
+# Disallow: /private/
+
+# Allow all search engines to index the portfolio
+# This helps with discoverability for potential employers/clients

@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import ContactForm from "../components/ContactForm";
+import SEO from "../components/SEO";
 
 const ContactPage = () => {
   const pageVariants = {
@@ -19,9 +20,15 @@ const ContactPage = () => {
   };
 
   return (
-    <motion.div
-      className="min-h-screen bg-ctp-base text-ctp-text"
-      variants={pageVariants}
+    <>
+      <SEO
+        title="Contact"
+        description="Get in touch with Andre Emanuel for collaboration opportunities, freelance projects, or full-time positions. Available for React, Node.js, and full-stack development work."
+        keywords="contact Andre Emanuel, hire full-stack developer, React developer for hire, freelance web developer, collaboration opportunities"
+      />
+      <motion.div
+        className="min-h-screen bg-ctp-base text-ctp-text"
+        variants={pageVariants}
       initial="hidden"
       animate="visible"
     >
@@ -81,6 +88,7 @@ const ContactPage = () => {
         </motion.div>
       </div>
     </motion.div>
+    </>
   );
 };
 

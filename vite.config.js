@@ -17,5 +17,27 @@ export default defineConfig({
     assetsDir: 'assets',
     sourcemap: true,
     emptyOutDir: true,
+    // Performance optimizations
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Vendor chunks for better caching
+          vendor: ['react', 'react-dom'],
+          motion: ['framer-motion'],
+          icons: ['react-icons'],
+          router: ['react-router-dom'],
+        },
+      },
+    },
+    // Enable minification and compression
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+    // Chunk size warning limit
+    chunkSizeWarningLimit: 1000,
   },
 });

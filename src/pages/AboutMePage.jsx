@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import SEO from "../components/SEO";
 import { 
   FiCode, 
   FiServer, 
@@ -54,11 +55,17 @@ const AboutMePage = () => {
   };
 
   return (
-    <motion.div
-      className="min-h-screen bg-ctp-base text-ctp-text"
-      variants={pageVariants}
-      initial="hidden"
-      animate="visible"
+    <>
+      <SEO
+        title="About Me"
+        description="Learn about Andre Emanuel's journey from F&B management to full-stack development. 14+ years of experience transitioning into modern web technologies from Bali, Indonesia."
+        keywords="Andre Emanuel, about, career transition, F&B management, full-stack developer, Bali developer, professional background"
+      />
+      <motion.div
+        className="min-h-screen bg-ctp-base text-ctp-text"
+        variants={pageVariants}
+        initial="hidden"
+        animate="visible"
     >
       {/* Navigation spacer */}
       <div className="h-20"></div>
@@ -434,6 +441,7 @@ const AboutMePage = () => {
         </motion.section>
       </div>
     </motion.div>
+    </>
   );
 };
 
