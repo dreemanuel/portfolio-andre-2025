@@ -63,31 +63,17 @@ const ProjectShowcase = () => {
   const collapsedHeaderOpacity = isTransitioning ? 1 : 0;
   const collapsedHeaderY = isTransitioning ? 0 : -50;
 
-  // Spring-based transforms for smooth motion - Much faster for compact showcase header
+  // Simplified spring transforms for better performance
   const springFullOpacity = useSpring(fullHeaderOpacity, {
-    stiffness: 600,
-    damping: 50,
-    mass: 0.4
+    stiffness: 300,
+    damping: 30,
+    mass: 0.8
   });
   
   const springFullScale = useSpring(fullHeaderScale, {
-    stiffness: 700,
-    damping: 55,
-    mass: 0.3
-  });
-  
-  const springCollapsedOpacity = useSpring(collapsedHeaderOpacity, {
-    stiffness: 250,
-    damping: 45,
-    mass: 1.2,
-    ease: "easeInOut"
-  });
-  
-  const springCollapsedY = useSpring(collapsedHeaderY, {
-    stiffness: 220,
-    damping: 42,
-    mass: 1,
-    ease: "easeOut"
+    stiffness: 350,
+    damping: 35,
+    mass: 0.6
   });
   
 
@@ -270,20 +256,20 @@ const ProjectShowcase = () => {
         </div>
       </motion.div>
 
-      {/* Collapsed Sticky Header - Fades in as full header fades out */}
+      {/* Collapsed Sticky Header - Properly positioned below navbar */}
       <motion.div 
-        className="fixed top-[32px] left-0 right-0 z-40 bg-ctp-base/95 backdrop-blur-md border-b border-ctp-surface2/30"
+        className="fixed top-[64px] left-0 right-0 z-40 bg-ctp-base/95 backdrop-blur-md border-b border-ctp-surface2/30"
         animate={{
           opacity: isTransitioning ? 1 : 0,
           y: isTransitioning ? 0 : -50,
         }}
         transition={{
-          opacity: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
+          opacity: { duration: 0.4, ease: "easeOut" },
           y: { 
             type: "spring",
-            stiffness: 120,
-            damping: 12,
-            mass: 1
+            stiffness: 200,
+            damping: 20,
+            mass: 0.8
           }
         }}
         style={{
@@ -347,8 +333,8 @@ const ProjectShowcase = () => {
         </div>
       </motion.div>
 
-      {/* Main Content - Project Grid */}
-      <div className="px-4 sm:px-6 lg:px-8 pt-8 pb-20">
+      {/* Main Content - Project Grid with proper navbar clearance */}
+      <div className="px-4 sm:px-6 lg:px-8 pt-24 pb-20">
         <div className="container mx-auto max-w-7xl">
 
           {/* Projects Grid */}
