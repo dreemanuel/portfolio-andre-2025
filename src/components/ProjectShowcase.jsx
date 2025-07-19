@@ -43,15 +43,32 @@ const ProjectShowcase = () => {
     [1, 0.92, 0.85]
   );
   
-  // Simple boolean state for collapsed header
+  // Track when main section reaches navbar - this will show sticky header
   useEffect(() => {
     const handleScroll = () => {
-      if (fullHeaderRef.current) {
+      if (sectionRef.current && fullHeaderRef.current) {
+        const sectionRect = sectionRef.current.getBoundingClientRect();
         const headerRect = fullHeaderRef.current.getBoundingClientRect();
-        const shouldTransition = headerRect.bottom <= 100;
-        if (shouldTransition !== isTransitioning) {
-          setIsTransitioning(shouldTransition);
-        }
+        const navbarHeight = 64;
+        
+        // Show sticky header when main section reaches navbar, 
+        // but only after the full header has passed
+        const sectionReachedNavbar = sectionRect.top <= navbarHeight;
+        const headerPassedNavbar = headerRect.bottom <= navbarHeight;
+        
+        const shouldTransition = sectionReachedNavbar && headerPassedNavbar;
+        
+        console.log('Scroll Debug:', {
+          sectionTop: sectionRect.top,
+          headerBottom: headerRect.bottom,
+          navbarHeight,
+          sectionReachedNavbar,
+          headerPassedNavbar,
+          shouldTransition,
+          currentState: isTransitioning
+        });
+        
+        setIsTransitioning(shouldTransition);
       }
     };
 
@@ -176,12 +193,11 @@ const ProjectShowcase = () => {
   };
 
   return (
-    <section ref={sectionRef} className="relative bg-transparent z-10">
-      
-      {/* Full Header - Scales and fades on scroll */}
+    <>
+      {/* Full Header - Outside main section to prevent layout shifts */}
       <motion.div 
         ref={fullHeaderRef} 
-        className="relative"
+        className="relative bg-transparent z-10"
         style={{
           opacity: springFullOpacity,
           scale: springFullScale,
@@ -256,7 +272,9 @@ const ProjectShowcase = () => {
         </div>
       </motion.div>
 
-      {/* Collapsed Sticky Header - Properly positioned below navbar */}
+      {/* Main Section - Now separate from header to prevent conflicts */}
+      <section ref={sectionRef} className="relative bg-transparent z-10">
+        {/* Collapsed Sticky Header - Properly positioned below navbar */}
       <motion.div 
         className="fixed top-[64px] left-0 right-0 z-40 bg-ctp-base/95 backdrop-blur-md border-b border-ctp-surface2/30"
         animate={{
@@ -421,7 +439,8 @@ const ProjectShowcase = () => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
       />
-    </section>
+      </section>
+    </>
   );
 };
 
