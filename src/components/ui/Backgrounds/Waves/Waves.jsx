@@ -335,8 +335,10 @@ const Waves = ({
     function updateMouse(x, y) {
       const mouse = mouseRef.current,
         b = boundingRef.current;
+      // Calculate relative to container bounds
       mouse.x = x - b.left;
       mouse.y = y - b.top;
+      
       if (!mouse.set) {
         mouse.sx = mouse.x;
         mouse.sy = mouse.y;
